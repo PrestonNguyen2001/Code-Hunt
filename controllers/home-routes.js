@@ -157,5 +157,19 @@ router.get("/dashboard", withAuth, async (req, res) => {
   }
 });
 
+//Route for displaying the discusions page
+router.get("/discussions", withAuth, async (req, res) => {
+  try {
+
+    res.render("discussions", {
+      logged_in: req.session.logged_in,
+      isDashboard: false,
+
+    })
+  } catch (err) {
+    console.error("Error rendering Discussion", err);
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;
