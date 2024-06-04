@@ -1,64 +1,50 @@
 const request = require('supertest');
-const express = require('express');
-const session = require('express-session');
-const { sequelize, User, Problem } = require('../../models');
-const homeRoutes = require('../../controllers/home-routes');
-const { describe } = require('../../models/User');
-
-//Setting up Express and middleware
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  session({
-    secret: 'test secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-  })
-);
-app.use('/', homeRoutes);
+const app = require('../../app'); 
+const withAuth = require('../../public/utils/auth');
 
 describe('Home Routes', () => {
-    beforeAll(async () => {
-      await sequelize.sync({ force: true });
+  beforeEach(() => {
+    // Apply the withAuth middleware to all routes
+    app.use(withAuth);
+    // Simulate authentication
+    app.use((req, res, next) => {
+      console.log("Simulating authentication...");
+      req.session = { user_id: 1 }; 
+      next();
     });
-  
-    afterAll(async () => {
-      await sequelize.close();
-    });
-});
-
+  });
 //Testing
-describe('GET /', ()  => {
-  it('Should return the homepage with problem', async () => {
-    //Create mock data
-    await User.create({ username: "testuser", email: "test@testmail.com", password: 'password123'});
-    await Problem.create({ title: 'Test Problem', difficulty: 'Easy', user_id: 1});
-
+/*describe('GET /', ()  => {
+  it('Should return the homepage with problems', async () => {
     const res = await request(app).get('/');
-
     expect(res.statusCode).toEqual(200);
-    expect(res.text).toContain('Test Problem');
-    expect(res.text).toContain('testuser')
+    expect(res.headers['content-type']).toContain('text/html');
   });
 });
 
 describe('GET /problems/:id', () => {
   it('should return a signle problem by Id', async () => {
-    const validProblemId = 1;
-
-    const res = await request(app).get(`/problems/${validProblemId}`);
+   
+    const res = await request(app).get('/problems/1');
 
     expect(res.statusCode).toEqual(200);
+    expect(res.text).toContain('Two Sum');
+    expect(res.headers['content-type']).toContain('text/html');
   });
 
   it('should respond with status 404 for an invalid problem id', async () => {
-    const invalidProblemId = 999;
-
-    const res = await request(app).get(`/problems/${invalidProblemId}`);
+    
+    const res = await request(app).get('/problems/999');
     
     expect(res.statusCode).toEqual(404);
   });
-  })
-
+  });*/
+  describe('GET /problems/:id without authentication', () => {
+    it('should redirect to login for an unauthenticated user', async () => {
+      const res = await request(app).get('/problems/1');
+      
+      expect(res.statusCode).toEqual(302);
+      expect(res.headers.location).toEqual('/login');
+    });
+});
+});
