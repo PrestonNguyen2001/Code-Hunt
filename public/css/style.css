@@ -112,6 +112,11 @@
   /* font family */
   --ff-primary: 'Work Sans', sans-serif;
 
+  .banner-container {
+    position: relative;
+}
+
+
   /* font size */
   --fs-base: 62.5%; 
   --fs-display-large: 5.7rem;
@@ -198,6 +203,50 @@
    */
 
   --top-app-bar-height: 64px;
+
+}
+
+.top-app-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f8f8; /* Adjust the background color as needed */
+}
+
+.logo {
+  flex: 1; /* Allow the logo to take up available space */
+  text-align: center; /* Center the logo */
+}
+
+.logo img {
+  height: 40px; /* Adjust the height as needed */
+}
+
+ 
+
+
+.login-button {
+  margin-left: auto; /* Push the login button to the right */
+}
+
+.login-button h2 {
+  margin: 0; /* Remove default margin */
+}
+
+.login-button a {
+  text-decoration: none; /* Remove underline from the link */
+  color: #5b83ca; /* Adjust the text color as needed */
+}
+
+
+
+
+
+
+
+.login-button a:hover {
+  text-decoration: underline;/* Optional: Add underline on hover */
 
 }
 
