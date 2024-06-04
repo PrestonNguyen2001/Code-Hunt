@@ -61,7 +61,7 @@ router.get("/", async (req, res) => {
 });
 
 // Route for displaying a single problem by ID and render workspace
-router.get("/problems/:id", withAuth, async (req, res) => {
+router.get("/problems/:id", withAuth,  async (req, res) => {             
   const id = parseInt(req.params.id, 10); // Ensure id is an integer
   if (isNaN(id)) {
     return res.status(400).json({ error: "Invalid problem ID" });
