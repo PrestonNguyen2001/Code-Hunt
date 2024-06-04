@@ -1,5 +1,8 @@
 const router = require("express").Router();
-const { capitalize } = require("../../public/utils/helpers.js");
+const {
+  capitalize,
+  problemIdToHandlerMap,
+} = require("../../public/utils/helpers.js");
 const problemHandlers = require("../../public/js/problemHandlers.js");
 const { UserProblem } = require("../../models");
 
@@ -19,11 +22,11 @@ router.post("/submit-code", async (req, res) => {
   console.log("Session user_id:", req.session.user_id);
 
   try {
-    const capitalizedProblemId = capitalize(problemId);
-    console.log("Capitalized Problem ID:", capitalizedProblemId);
-    const handlerFunction = problemHandlers[`handler${capitalizedProblemId}`];
+    const handlerFunctionName = problemIdToHandlerMap[problemId];
+    console.log("Handler Function Name:", handlerFunctionName);
+    const handlerFunction = problemHandlers[handlerFunctionName];
     if (!handlerFunction) {
-      console.error("Invalid problem ID:", capitalizedProblemId);
+      console.error("Invalid problem ID:", handlerFunctionName);
       return res.status(400).json({ error: "Invalid problem ID" });
     }
 

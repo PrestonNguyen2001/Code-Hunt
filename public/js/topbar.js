@@ -124,6 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch("/api/problems");
     problems = await response.json();
     renderProblemsList();
+    currentProblemIndex = getCurrentProblemIndex();
   };
 
   // Render problems list in the sidebar
@@ -132,7 +133,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       problemsListContainer.innerHTML = problems
         .map(
           (problem) =>
-            `<li><a href="/problems/${problem.id}" class="problem-link">${problem.title} - <span class="difficulty ${problem.difficulty}">${problem.difficulty}</span></a></li>`
+            `<li><a href="/problems/${problem.id}" class="sidebar-link">${problem.title} <span class="difficulty ${problem.difficulty}">${problem.difficulty}</span></a></li>`
         )
         .join("");
     }
@@ -142,7 +143,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const getCurrentProblemIndex = () => {
     const path = window.location.pathname;
     const currentProblemId = path.split("/problems/")[1];
-    return problems.findIndex((problem) => problem.id === currentProblemId);
+    return problems.findIndex(
+      (problem) => problem.id.toString() === currentProblemId
+    );
   };
 
   // Navigate to problem by index
@@ -154,14 +157,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Add event listeners for navigation buttons
   if (prevProblemButton) {
-    prevProblemButton.addEventListener("click", () => {
+    prevProblemButton.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent the event from propagating
       const index = getCurrentProblemIndex();
       navigateToProblem(index - 1);
     });
   }
 
   if (nextProblemButton) {
-    nextProblemButton.addEventListener("click", () => {
+    nextProblemButton.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevent the event from propagating
       const index = getCurrentProblemIndex();
       navigateToProblem(index + 1);
     });
@@ -169,16 +174,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Toggle sidebar
   if (problemsListToggle) {
-    problemsListToggle.addEventListener("click", () => {
+    problemsListToggle.addEventListener("click", (event) => {
       problemsSidebar.classList.toggle("hidden");
       problemsSidebar.classList.add("active");
+      // Prevent the event from propagating to other elements
+      event.stopPropagation();
     });
   }
 
   // Close sidebar
   if (closeSidebarButton) {
-    closeSidebarButton.addEventListener("click", () => {
+    closeSidebarButton.addEventListener("click", (event) => {
       problemsSidebar.classList.add("hidden");
+      // Prevent the event from propagating to other elements
+      event.stopPropagation();
+    });
+  }
+
+  // Prevent clicking inside the problems sidebar from closing it or triggering other sidebars
+  if (problemsSidebar) {
+    problemsSidebar.addEventListener("click", (event) => {
+      // Prevent the event from propagating to other elements
+      event.stopPropagation();
     });
   }
 
