@@ -3,7 +3,6 @@ const { Problem, User, Comment, UserProblem } = require("../models");
 const problems = require("./mockProblems");
 const mockComments = require("./mockComments");
 const mockUsers = require("./mockUsers");
-
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
   // 1. Create users
@@ -58,5 +57,4 @@ const seedDatabase = async () => {
   console.log("Database seeded successfully");
   process.exit(0);
 };
-
 seedDatabase();
