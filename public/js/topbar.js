@@ -1,5 +1,4 @@
-// workspace.js
-export function initializeWorkspace() {
+
   document.addEventListener("DOMContentLoaded", async () => {
     const themeToggle = document.querySelector("[data-theme-toggler]");
     const logoutButton = document.getElementById("logout");
@@ -203,4 +202,4 @@ export function initializeWorkspace() {
 
     await fetchProblems();
   });
-}
+
