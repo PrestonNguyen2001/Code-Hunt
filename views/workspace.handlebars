@@ -8,12 +8,14 @@
     <script type="module" src="/js/topbar.js"></script>
     <script type="module" src="/js/workspace.js"></script>
 </head>
+<body>
 <div class="workspace-container">
   <div class="left-container">
     <!-- Tabs -->
     <div class="tabs">
       <button class="tablink" id="description-tab" onclick="openTab(event, 'description')">Description</button>
       <button class="tablink" id="solution-tab" onclick="openTab(event, 'solution')">Solution</button>
+      <button class="tablink" id="comments-tab" onclick="openTab(event, 'comments')">Comments</button>
     </div>
 
     <!-- Tab Content -->
@@ -47,13 +49,15 @@
       </div>
     </div>
     <!-- Comment Section -->
-    <div class="comment-section hidden" id="comment-section">
-      <h2>Leave a Comment</h2>
-      <form id="comment-form">
-        <textarea id="comment-content" rows="3" placeholder="Write your comment here..."></textarea>
-        <button type="submit" style="float: right;">Submit Comment</button>
-      </form>
-      <div id="comments-list"></div>
+     <div id="comments" class="tabcontent" style="display: block;">
+      <div class="comment-section" id="comment-section">
+        <h2>Leave a Comment</h2>
+        <form id="comment-form">
+          <textarea id="comment-content" rows="3" placeholder="Write your comment here..."></textarea>
+          <button type="submit" style="float: right;">Submit Comment</button>
+        </form>
+        <div id="comments-list"></div>
+      </div>
     </div>
     <!-- Feedback Section -->
     <div class="feedback-section">
@@ -116,9 +120,6 @@
   </div>
 </div>
 
-
-</html>
-
 <input type="hidden" id="problemId" value="{{problem.id}}">
 <script type="module" src="/js/workspace.js"></script>
 <script>
@@ -139,3 +140,5 @@
   // Open the default tab
   document.getElementById("description-tab").click();
 </script>
+</body>
+</html>

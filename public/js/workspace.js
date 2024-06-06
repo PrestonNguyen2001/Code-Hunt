@@ -17,7 +17,6 @@ async function fetchProblemIdToHandlerMap() {
 
 function getFunctionName(problemId) {
   return problemIdToHandlerMap[problemId] || problemIdToHandlerMap["default"];
-  console.log("Function name for problem ID:", problemId, functionName);
 }
 
 async function fetchProblems() {
@@ -123,7 +122,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const testCases = document.querySelectorAll(".test-case");
   const testCaseButtons = document.querySelectorAll(".test-case-btn");
   const problemIdElement = document.getElementById("problemId");
-    const leftContainer = document.querySelector(".left-container");
+  const leftContainer = document.querySelector(".left-container");
 
   const problemId = problemIdElement
     ? parseInt(problemIdElement.value, 10)
@@ -558,7 +557,24 @@ function openTab(evt, tabName) {
   if (problemTitle) {
     problemTitle.style.display = "block";
   }
+
+ // Toggle comment section visibility
+  const commentSection = document.getElementById("comment-section");
+  const commentToggle = document.getElementById("comment-toggle");
+  if (tabName === "comments") {
+    commentSection.classList.remove("hidden");
+    commentSection.classList.add("visible");
+    commentToggle.style.display = "none"; // Hide the toggle button
+    leftContainer.style.overflowY = "auto"; // Enable scrolling
+  } else {
+    commentSection.classList.remove("visible");
+    commentSection.classList.add("hidden");
+    commentToggle.style.display = "block"; // Show the toggle button
+    leftContainer.style.overflowY = "hidden"; // Disable scrolling
+  }
 }
+
+
 
 // Open the default tab
 document.getElementById("description-tab").click();
