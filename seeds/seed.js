@@ -5,7 +5,7 @@ const mockComments = require("./mockComments");
 const mockUsers = require("./mockUsers");
 
 const seedDatabase = async () => {
-  await sequelize.sync({ alter: true }); 
+  await sequelize.sync({ force: true }); 
   // 1. Create users
   const users = await User.bulkCreate(mockUsers, {
     individualHooks: true,
