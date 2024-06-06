@@ -34,6 +34,7 @@ UserProblem.init(
     results: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     },
     liked: {
       type: DataTypes.BOOLEAN,
